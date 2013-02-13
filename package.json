@@ -1,0 +1,9 @@
+{
+  "name": "pouchdb-uploads",
+  "version": "0.0.1",
+  "private": true,
+  "main" : "./index.js",
+  "dependencies": {
+    "send": "0.1.0"
+  }
+}

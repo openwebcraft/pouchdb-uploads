@@ -1,0 +1,10 @@
+@font-face {
+    font-family: 'Prime-Regular';
+    font-style: normal;
+    font-weight: normal;
+    src: local('Prime-Regular'), url('../fonts/Prime-Regular.ttf') format('truetype');
+}
+
+body {
+    font-family: 'Prime-Regular',sans-serif;
+}
