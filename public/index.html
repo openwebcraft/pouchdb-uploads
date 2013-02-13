@@ -10,9 +10,28 @@
     <header>
         <h1>PouchDB Uploads</h1>
         <p class="lede">Welcome to PouchDB Uploads</p>
+        <form id="upload-form">
+            <fieldset>
+                <legend>New Upload</legend>
+                <p><small class="caption">Required fields are marked <abbr title="Required">*</abbr></small></p>
+                <p>
+                    <label for="new-upload-name">Upload <abbr title="Required">*</abbr></label>
+                    <input id="new-upload-name" name="name" class="input" type="text" placeholder="name of upload..." required>
+                    <small class="caption">Describe the upload.</small>
+                </p>
+                <!--p>
+                    <label for="new-upload-file">Upload file <abbr title="Required">*</abbr></label>
+                    <input id="new-upload-file" name="file" class="input" type="file">
+                </p-->
+                <div class="button-group">
+                    <input id="btn-new-upload" type="submit" class="primary-button" value="Upload...">
+                </div>
+            </fieldset>
+        </form>
     </header>
     <section class="pattern">
-        <div id="app"></div>
+        <ol id="uploads-list" class="articles"></ol><!--/.articles-->
+        <p><a id="btn-clear-db">Delete Uploads</a></p>
     </section>
     <footer role="contentinfo">
         <p>
@@ -22,7 +41,19 @@
         </p>
     </footer>
     <script src="js/vendor/jquery-1.9.1.min.js"></script>
+    <script src="js/vendor/underscore-1.4.4.min.js"></script>
     <script src="js/vendor/pouchdb-nightly.min.js"></script>
+    <script src="js/vendor/mustache.js"></script>
     <script src="js/app.js"></script>
+
+    <script id="tpl-upload" type="text/template">
+        <li><a href="#">
+            <article class="module">
+                <!--img class="pull-left" src="http://lorempixum.com/240/180/city/4" alt=""/-->
+                <h1 class="h">{{name}}</h1>
+            </article>
+        </a></li>
+    </script>
+
 </body>
 </html>
