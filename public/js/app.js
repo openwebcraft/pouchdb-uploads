@@ -4,6 +4,8 @@ $(function() {
 
     function createPouchDB() {
         Pouch(db, function(err, db) {
+            if (err) throw err;
+
             pouchdb = db;
             window.pouchdb = db;
             console.log(db);
@@ -14,8 +16,13 @@ $(function() {
 
     function loadUploads(){
         pouchdb.allDocs({include_docs: true}, function(err, res) {
+            if (err) throw err;
+
+            $('#uploads-list').empty();
             _.each(res.rows, function(val, key, list){
                 pouchdb.get(val.doc._id, {attachments: true}, function(err, doc) {
+                    if (err) throw err;
+
                     // flatten out _attachments to ease {{ mustache }} rendering
                     doc.attachments = _.map(
                         _.flatten(doc._attachments), function(val, key){
