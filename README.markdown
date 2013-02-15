@@ -6,6 +6,7 @@ A little sample application for uploading files to a [PouchDB][pouchdb.com].
 
 - HTML5
 - [jQuery][jquery.com] (v1.9.1)
+- [jQuery SDK][jquerysdk.com] (v1.4)
 - [Underscore.js][underscorejs.org] (v.1.4.4)
 - [PouchDB][pouchdb.com]
 - [mustache.js][mustache.js]
@@ -32,6 +33,7 @@ Point your favourite HTML5-capable browser to: [http://localhost:3000/](http://l
 [fontfabric.com]: http://fontfabric.com/prime-free-font/
 [barebones]: http://barebones.paulrobertlloyd.com
 [jquery.com]: http://jquery.com
+[jquerysdk.com]: http://www.jquerysdk.com/
 [mustache.js]: https://github.com/janl/mustache.js
 [underscorejs.org]: http://underscorejs.org/
 [nodejs.org]: http://nodejs.org
