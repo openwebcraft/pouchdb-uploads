@@ -6,6 +6,9 @@ var http = require('http')
 var port = process.env.PORT || 3000;
 var path = path.resolve('./public');
 
+/* A simple TCP server which listens on port 3000
+ * and transfers arbitrary files from ./public/ dir.
+ */
 var app = http.createServer(function(req, res){
     // your custom error-handling logic:
     function error(err) {
@@ -28,3 +31,4 @@ var app = http.createServer(function(req, res){
         .on('directory', redirect)
         .pipe(res);
 }).listen(port);
+console.log('Web server startet on 127.0.0.1:' + port + ', serving static files from ./public directory.');

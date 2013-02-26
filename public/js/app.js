@@ -2,13 +2,20 @@ $(function() {
     var db = 'idb://pouchdb-uploads';
     var pouchdb;
 
+    // Check for the various File API support.
+    if (window.File && window.FileReader && window.FileList && window.Blob) {
+        // Great success! All the File APIs are supported.
+    } else {
+        alert('The File APIs are not fully supported in this browser.');
+    }
+
     function createPouchDB() {
         Pouch(db, function(err, db) {
             if (err) throw err;
 
             pouchdb = db;
             window.pouchdb = db;
-            console.log(db);
+            //if (console && console.log) console.log(db);
             loadUploads();
         });
     }
@@ -20,57 +27,84 @@ $(function() {
 
             $('#uploads-list').empty();
             _.each(res.rows, function(val, key, list){
-                pouchdb.get(val.doc._id, {attachments: true}, function(err, doc) {
-                    if (err) throw err;
+                pouchdb.get(
+                    val.doc._id,
+                    {attachments: true},
+                    function(err, doc) {
+                        if (err) throw err;
 
-                    // flatten out _attachments to ease {{ mustache }} rendering
-                    doc.attachments = _.map(
-                        _.flatten(doc._attachments), function(val, key){
-                        // decode base64-encoded contents in the
-                        // "data" property of each attachment
-                        val.data = atob(val.data);
-                        return val;
-                    });
-                    // render {{ mustache }} tpl
-                    var upload = Mustache.to_html(
-                        $('#tpl-upload').html(),
-                        doc
-                    );
-                    $('#uploads-list').append(upload);
-                });
+                        // TODO figure out how to directly use _attachments with {{ mustache }}
+                        // flatten out _attachments to ease {{ mustache }} rendering
+                        doc.attachments = _.flatten(doc._attachments);
+                        // render {{ mustache }} tpl
+                        var upload = Mustache.to_html(
+                            $('#tpl-upload').html(),
+                            doc
+                        );
+                        $('#uploads-list').append(upload);
+                    }
+                );
             });
         });
     }
 
     $('#btn-clear-db').click(function(e){
         Pouch.destroy(db, function(err, info) {
-            console.log(info);
+            //if (console && console.log) console.log(info);
             $('#uploads-list').empty();
             createPouchDB();
         });
     });
 
-    $('#upload-form').submit(function(e){
-        e.preventDefault();
-        var n = $('#new-upload-name');
-        var name = n.val();
-        pouchdb.post({name: n.val()}, function(err, res){
-            console.log(res);
-            n.val('');
-            var files = $("#upload-form :file[value!='']");
-            if(files.length > 0) {
-                _.each(files, function(val, key, list){
-                    var file = $(val).val();
-                    var ext = file.split('.').pop();
-                    var attachment = res.id+'/'+key;
-                    pouchdb.putAttachment(attachment, res.rev, name, $.mime(ext), function(err, res) {
-                        console.log(res);
-                    });
-                });
+    $('#upload-file').change(function(e){
+        var files = e.target.files; // FileList object
+        var name = $('#upload-description').val();
+
+        // Loop through the FileList and act on image files...
+        for (var i = 0, f; f = files[i]; i++) {
+
+            // Only process image files.
+            if (!f.type.match('image.*')) {
+                continue;
             }
-            if($('#new-upload-file').val() !== '')
-            loadUploads();
-        });
+
+            var reader = new FileReader();
+
+            // Closure to capture the file information.
+            reader.onload = (function(theFile) {
+                return function(e) {
+
+                    if (!name) {
+                        name = theFile.name;
+                    }
+
+                    pouchdb.post({name: name}, function(err, res){
+                        if (err) throw err;
+
+                        var ext = theFile.name.split('.').pop();
+                        var attachment = res.id+'/'+encodeURIComponent(theFile.name);
+                        var data = e.target.result;
+                        pouchdb.putAttachment(
+                            attachment,
+                            res.rev,
+                            data,
+                            $.mime(ext),
+                            function(err, res) {
+                                if (err) throw err;
+                            }
+                        );
+
+                        loadUploads();
+                        $('#upload-form')[0].reset();
+                    });
+
+                };
+            })(f);
+
+            // Read in the image file as a data URL.
+            reader.readAsBinaryString(f);
+        }
+
     });
 });
 

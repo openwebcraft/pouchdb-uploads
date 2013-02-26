@@ -19,11 +19,7 @@ A little sample application for uploading files to a [PouchDB][pouchdb.com].
 
 ## Development Environment
 
-Start [node.js][nodejs.org] based web server to serve static files from `./public` directory.
-
-    node index.js
-
-Or use foreman togehter with `.env` file for setting the port (default `3000`).
+Use foreman with `.env` file for setting for `PORT` (default `3000`) to start [node.js][nodejs.org] based web server, serving static files from `./public` directory and a echo server to echo `POST` requests.
 
     foreman start
 

@@ -1,31 +1,32 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>PouchDB Uploads</title>
+    <title>PouchDB Image Uploads</title>
     <link rel="stylesheet" href="css/reset.css">
     <link rel="stylesheet" href="css/patterns.css">
     <link rel="stylesheet" href="css/app.css">
 </head>
 <body>
     <header>
-        <h1>PouchDB Uploads</h1>
-        <p class="lede">Welcome to PouchDB Uploads</p>
-        <form id="upload-form">
+        <h1>PouchDB Image Uploads</h1>
+        <p class="lede">Welcome to PouchDB Image Uploads</p>
+        <form id="upload-form" enctype="multipart/form-data" method="POST">
             <fieldset>
-                <legend>New Upload</legend>
+                <legend>New Image Upload</legend>
                 <p><small class="caption">Required fields are marked <abbr title="Required">*</abbr></small></p>
                 <p>
-                    <label for="new-upload-name">Upload <abbr title="Required">*</abbr></label>
-                    <input id="new-upload-name" name="name" class="input" type="text" placeholder="name of upload..." required>
-                    <small class="caption">Describe the upload.</small>
+                    <label for="upload-description">Description</label>
+                    <textarea id="upload-description" name="description" class="input" rows="4" cols="32" placeholder="description of image..."></textarea>
+                    <small class="caption">Defaut: image file name</small>
                 </p>
                 <p>
-                    <label for="new-upload-file">Upload file <abbr title="Required">*</abbr></label>
-                    <input id="new-upload-file" name="file" class="input" type="file">
+                    <label for="upload-file">Image file <abbr title="Required">*</abbr></label>
+                    <input id="upload-file" name="files[]" class="input" type="file" multiple required/>
+                    <small class="caption">Supported image formats, triggering upload: <strong>PNG</strong> (image/png)</small>
                 </p>
-                <div class="button-group">
-                    <input id="btn-new-upload" type="submit" class="primary-button" value="Upload...">
-                </div>
+                <!--div class="button-group">
+                    <input id="btn-upload" type="submit" class="primary-button" value="Upload...">
+                </div-->
             </fieldset>
         </form>
     </header>
@@ -50,24 +51,14 @@
 
     <script id="tpl-upload" type="text/template">
         <li>
-            <a href="#{{_id}}">
+            <!--a href=""-->
                 <article class="module">
-                    <!--img class="pull-left" src="http://lorempixum.com/240/180/city/4" alt=""/-->
+                    {{#attachments}}
+                    <img class="pull-left" src="data:image/png;base64,{{data}}" alt="{{name}}"/>
+                    {{/attachments}}
                     <h1 class="h">{{name}}</h1>
-                    <ul>
-                        {{#attachments}}
-                        <li>File:
-                            <dl class="metadata">
-                                <dt>Content Type</dt>
-                                <dd>{{content_type}}</dd>
-                                <dt>Data</dt>
-                                <dd>{{data}}</dd>
-                            </dl><!--/.metadata-->
-                        </li>
-                        {{/attachments}}
-                    </ul><!--/.stats-->
                 </article>
-            </a>
+            <!--/a-->
         </li>
     </script>
 
