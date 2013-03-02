@@ -8,3 +8,19 @@
 body {
     font-family: 'Prime-Regular',sans-serif;
 }
+
+#sync-app {
+    display: none;
+}
+
+.float-right {
+    float: right;
+}
+
+#sync-app:target {
+    display: block;
+}
+
+#sync-app:target + #uploads-app {
+    display: none;
+}

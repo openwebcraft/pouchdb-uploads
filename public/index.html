@@ -9,31 +9,69 @@
 <body>
     <header>
         <h1>PouchDB Image Uploads</h1>
-        <p class="lede">Welcome to PouchDB Image Uploads</p>
-        <form id="upload-form" enctype="multipart/form-data" method="POST">
-            <fieldset>
-                <legend>New Image Upload</legend>
-                <p><small class="caption">Required fields are marked <abbr title="Required">*</abbr></small></p>
-                <p>
-                    <label for="upload-description">Description</label>
-                    <textarea id="upload-description" name="description" class="input" rows="4" cols="32" placeholder="description of image..."></textarea>
-                    <small class="caption">Default: image file name</small>
-                </p>
-                <p>
-                    <label for="upload-file">Image file <abbr title="Required">*</abbr></label>
-                    <input id="upload-file" name="files[]" class="input" type="file" multiple required/>
-                    <small class="caption">Supported image formats, triggering upload: <strong>PNG</strong> (image/png)</small>
-                </p>
-                <!--div class="button-group">
-                    <input id="btn-upload" type="submit" class="primary-button" value="Upload...">
-                </div-->
-            </fieldset>
-        </form>
+        <p class="lede">Your image upload to PouchDB</p>
     </header>
-    <section class="pattern">
-        <ol id="uploads-list" class="articles"></ol><!--/.articles-->
-        <p><a id="btn-clear-db">Delete Uploads</a></p>
-    </section>
+
+    <div id="sync-app" class="pattern">
+
+        <header>
+            <a class="switch float-right" href="#">Back to Uploads</a>
+            <form id="replication-form">
+                <fieldset>
+                    <legend>Sync Uploads</legend>
+                    <p><small class="caption">Required fields are marked <abbr title="Required">*</abbr></small></p>
+                    <p>
+                        <label for="new-replication">CouchDB URL <abbr title="Required">*</abbr></label>
+                        <input id="new-replication" type="url" placeholder="https://you.iriscouch.com/uploads"/>
+                        <small class="caption">Fully-qualified URL of a couch database. HTTP Basic Authentication URLs are ok.</small>
+                    </p>
+                </fieldset>
+            </form>
+        </header>
+        <section class="pattern">
+            <ol id="replications-list" class="articles"></ol> <!--/.articles-->
+            <p>
+                <button id="btn-sync-replications" class="primary-button">Sync Replications</button>
+                &nbsp;<a id="btn-clear-replications">Delete Replications</a>
+            </p>
+        </section>
+
+        <footer>
+            <div id="sync-stats"></div>
+        </footer>
+
+    </div>
+
+    <div id="uploads-app">
+
+        <header>
+            <a class="switch float-right" href="#sync-app">Sync Uploads</a>
+            <form id="upload-form">
+                <fieldset>
+                    <legend>New Image Upload</legend>
+                    <p><small class="caption">Required fields are marked <abbr title="Required">*</abbr></small></p>
+                    <p>
+                        <label for="upload-description">Description</label>
+                        <textarea id="upload-description" name="description" class="input" rows="4" cols="32" placeholder="description of image..."></textarea>
+                        <small class="caption">Default: image file name</small>
+                    </p>
+                    <p>
+                        <label for="upload-file">Image file <abbr title="Required">*</abbr></label>
+                        <input id="upload-file" name="files[]" class="input" type="file" multiple required/>
+                        <small class="caption">Supported image formats, triggering upload: <strong>PNG</strong> (image/png)</small>
+                    </p>
+                    <!--div class="button-group">
+                        <input id="btn-upload" type="submit" class="primary-button" value="Upload...">
+                    </div-->
+                </fieldset>
+            </form>
+        </header>
+        <section class="pattern">
+            <ol id="uploads-list" class="articles"></ol><!--/.articles-->
+            <p><a id="btn-clear-db">Delete Uploads</a></p>
+        </section>
+    </div>
+
     <footer role="contentinfo">
         <p>
             <small>
@@ -48,6 +86,7 @@
     <script src="js/vendor/IndexedDBShim.min.js"></script>
     <script src="js/vendor/pouchdb-nightly.js"></script>
     <script src="js/vendor/mustache.js"></script>
+    <script src="js/vendor/moment.min.js"></script>
     <script src="js/app.js"></script>
 
     <script id="tpl-upload" type="text/template">
@@ -58,9 +97,28 @@
                     <img class="pull-left" src="data:image/png;base64,{{data}}" alt="{{name}}"/>
                     {{/attachments}}
                     <h1 class="h">{{name}}</h1>
+                    <p class="caption"><time pubdate datetime="{{created_at}}">{{created_at_from_now}}</time></p>
                 </article>
             <!--/a-->
         </li>
+    </script>
+
+    <script id="tpl-replication" type="text/template">
+        <li>
+            <!--a href=""-->
+                <article class="module">
+                    <h1 class="h">{{url}}</h1>
+                    <p class="caption"><time pubdate datetime="{{created_at}}">{{created_at_from_now}}</time></p>
+                </article>
+            <!--/a-->
+        </li>
+    </script>
+
+    <script id="tpl-sync-stats" type="text/template">
+        <ul class="stats">
+            <li><div class="replication-count">Synced <b>{{count}}</b> database(s)</div></li>
+            <li><b>{{read}}</b>↔<b>{{written}}</b> Uploads</li>
+        </ul><!--/.stats-->
     </script>
 
 </body>
