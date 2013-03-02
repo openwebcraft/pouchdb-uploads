@@ -25,13 +25,17 @@
                         <input id="new-replication" type="url" placeholder="https://you.iriscouch.com/uploads"/>
                         <small class="caption">Fully-qualified URL of a couch database. HTTP Basic Authentication URLs are ok.</small>
                     </p>
+                    <div class="button-group">
+                        <button id="btn-replication" class="primary-button">Add Replication Target...</button>
+                    </div>
                 </fieldset>
             </form>
         </header>
         <section class="pattern">
+            <h2>Replication Targets</h2>
             <ol id="replications-list" class="articles"></ol> <!--/.articles-->
             <p>
-                <button id="btn-sync-replications" class="primary-button">Sync Replications</button>
+                <button id="btn-sync-replications" class="primary-button">Sync Replications...</button>
                 &nbsp;<a id="btn-clear-replications">Delete Replications</a>
             </p>
         </section>
@@ -60,13 +64,14 @@
                         <input id="upload-file" name="files[]" class="input" type="file" multiple required/>
                         <small class="caption">Supported image formats, triggering upload: <strong>PNG</strong> (image/png)</small>
                     </p>
-                    <!--div class="button-group">
-                        <input id="btn-upload" type="submit" class="primary-button" value="Upload...">
-                    </div-->
+                    <div class="button-group">
+                        <button id="btn-upload" class="primary-button">Upload Image...</button>
+                    </div>
                 </fieldset>
             </form>
         </header>
         <section class="pattern">
+            <h2>Image Uploads</h2>
             <ol id="uploads-list" class="articles"></ol><!--/.articles-->
             <p><a id="btn-clear-db">Delete Uploads</a></p>
         </section>

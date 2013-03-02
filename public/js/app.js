@@ -162,8 +162,9 @@ $(function() {
         $('#sync-stats').empty().append(syncStats);
     }
 
-    $('#upload-file').change(function(e){
-        var files = e.target.files; // FileList object
+    $('#btn-upload').click(function(e){
+        e.preventDefault();
+        var files = $('#upload-file')[0].files; // FileList object
         var name = $('#upload-description').val();
 
         // Loop through the FileList and act on image files...
@@ -213,12 +214,12 @@ $(function() {
 
     });
 
-    $('#new-replication').keypress(function(e){
-        if (e.keyCode != 13) return;
+    $('#btn-replication').click(function(e){
         e.preventDefault();
-        if (!$(this).val()) return;
+        var replication = $('#new-replication'); // FileList object
+        if (!replication.val()) return;
 
-        replicationsdb.post({url: $(this).val(), created_at: new Date()}, function(err, res){
+        replicationsdb.post({url: replication.val(), created_at: new Date()}, function(err, res){
             if (err) throw err;
 
             loadReplications();
