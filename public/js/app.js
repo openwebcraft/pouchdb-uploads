@@ -228,5 +228,13 @@ $(function() {
 
     });
 
+    $('#btn-cancel-upload').click(function(e){
+        $('#upload-form')[0].reset();
+    });
+
+    $('#btn-cancel-replication').click(function(e){
+        $('#replication-form')[0].reset();
+    });
+
 });
 

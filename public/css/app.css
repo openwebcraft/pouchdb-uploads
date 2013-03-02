@@ -24,3 +24,7 @@ body {
 #sync-app:target + #uploads-app {
     display: none;
 }
+
+#new-replication{
+    width: 250px;
+}
