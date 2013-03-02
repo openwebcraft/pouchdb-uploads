@@ -13,10 +13,6 @@ body {
     display: none;
 }
 
-.float-right {
-    float: right;
-}
-
 #sync-app:target {
     display: block;
 }

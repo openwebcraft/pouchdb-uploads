@@ -15,7 +15,12 @@
     <div id="sync-app" class="pattern">
 
         <header>
-            <a class="switch float-right" href="#">Back to Uploads</a>
+            <nav role="navigation" class="nav">
+                <ul>
+                    <li><a class="switch" href="#">&#8592; Back to Image Uploads</a></li>
+                </ul>
+            </nav><!--/.nav-->
+            &nbsp;
             <form id="replication-form">
                 <fieldset>
                     <legend>Sync Uploads</legend>
@@ -23,7 +28,7 @@
                     <p>
                         <label for="new-replication">CouchDB URL <abbr title="Required">*</abbr></label>
                         <input id="new-replication" type="url" placeholder="https://you.iriscouch.com/uploads"/>
-                        <small class="caption">Fully-qualified URL of a couch database.<br/> HTTP Basic Authentication URLs are ok.</small>
+                        <small class="caption">Fully-qualified URL of a couch database. HTTP Basic Authentication URLs are ok.</small>
                     </p>
                     <div class="button-group">
                         <button id="btn-replication" class="primary-button">Add Replication Target...</button>
@@ -50,7 +55,12 @@
     <div id="uploads-app">
 
         <header>
-            <a class="switch float-right" href="#sync-app">Sync Uploads</a>
+            <nav role="navigation" class="nav">
+                <ul>
+                    <li><a class="switch" href="#sync-app">Sync Image Uploads &#8594;</a></li>
+                </ul>
+            </nav><!--/.nav-->
+            &nbsp;
             <form id="upload-form">
                 <fieldset>
                     <legend>New Image Upload</legend>
